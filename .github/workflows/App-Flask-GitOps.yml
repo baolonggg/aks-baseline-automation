@@ -82,6 +82,7 @@ jobs:
         run: |
           cd "workloads/$APPNAME"
           docker build . -t ${{ inputs.ACRNAME }}.azurecr.io/${{ inputs.APPNAME }}:${{ github.run_number }}
+          docker images
           docker push ${{ inputs.ACRNAME }}.azurecr.io/${{ inputs.APPNAME }}:${{ github.run_number }}
 
   Update-K8s-Manifests:
