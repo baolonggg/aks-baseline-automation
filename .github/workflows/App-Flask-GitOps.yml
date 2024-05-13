@@ -18,8 +18,8 @@ on:
         type: environment
 
 permissions:
-      id-token: write
-      contents: write
+  id-token: write
+  contents: write
 
 jobs:
   BuildPush:
@@ -100,3 +100,22 @@ jobs:
         git commit -m "Update image version in K8s Deployment manifests file"
         git push origin
 
+  Kubescape-Scan:
+    name: Kubescape scanning for misconfigurations
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    steps:
+      - uses: actions/checkout@v3
+      - uses: kubescape/github-action@main
+        continue-on-error: false
+        with:
+          format: sarif
+          outputFile: results
+          severityThreshold: critical
+      - name: Upload Kubescape scan results to Github Code Scanning
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: results.sarif
