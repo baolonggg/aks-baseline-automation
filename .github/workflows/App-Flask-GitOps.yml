@@ -1,15 +1,3 @@
-## ------------------------------------------------------------------------------------------------------------------------
-## Pull-Based GitOps Deployment
-## This workflow takes in an EXISTING ACR and AKS cluster and updates the AKS manifest files for GitOps to deploy the app. 
-## Assumptions:
-##     Existing ACR
-##     Existing AKS cluster
-##     ACR is attached to AKS cluster (no image pull secret required)
-## -------------------------------------------------------------------------------------------------------------------------
-
-# This workflow demonstrates building and pushing a container image to an Azure Container Registry.
-# The workflow then updates the necessary Kubernetes manifest deployment files in the GitHub repo so that a GitOps operator can sync them to deploy an application to an Azure Kubernetes Service cluster.
-# It is split into separate jobs for readability but could be squashed into a single job if that best suits your scenario.
 name: App Deploy Flask - GitOps
 
 on: 
@@ -114,7 +102,6 @@ jobs:
 
   Kubescape-Scan:
     name: Kubescape scanning for misconfigurations
-    on: [push, pull_request]
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
